@@ -25,6 +25,10 @@ Cette méthode d'intrusion dans un système est largement utilisée par les Ethi
 
 Un cheval de Troie peut être écrit dans n'importe quel language de programmation mais il est plus facile de le faire en C/C++ afin de bypasser les permissions.
 
+Voici quelques exemples de cheval de Troie :
+
+- 
+
 ### Troyen dans un fichier jpg ou autre fichier
 
 Il semble très facile de mettre en place un Troyen dans un fichier jpg d'après le post de *Gourav Dhar* sur le site *InfoSec Write-ups*. Il explique aussi que sa marche à suivre fonctionne pour les pdf ou d'autres extensions de fichiers.
