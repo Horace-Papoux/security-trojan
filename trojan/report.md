@@ -52,6 +52,9 @@ Lien sur son post : https://infosecwriteups.com/how-i-created-a-trojan-malware-e
  - **Wikipédia**, Cheval de Troie, https://fr.wikipedia.org/wiki/Cheval_de_Troie
  - **Wikipédia**, Cheval de Troie (informatique), https://fr.wikipedia.org/wiki/Cheval_de_Troie_(informatique)
  - **InfoSec Write-ups**, How I created a Trojan malware - Ethical Hacking, https://infosecwriteups.com/how-i-created-a-trojan-malware-ethical-hacking-82239a6b64c6
+ - https://techbrowser.co/browser/google-chrome/where-are-google-chrome-passwords-stored/#:~:text=The%20passwords%20are%20stored%20in,the%20file%20%E2%80%9CLogin%20Data%E2%80%9D.
+ - https://github.com/ohyicong/decrypt-chrome-passwords/blob/main/decrypt_chrome_password.py
+ - https://ohyicong.medium.com/how-to-hack-chrome-password-with-python-1bedc167be3d
 
 ### Illustrations
 
