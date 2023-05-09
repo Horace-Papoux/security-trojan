@@ -79,9 +79,6 @@ def get_and_decrypt_all_passwords():
             username = login[1]
             ciphertext= login[2]
             
-            if not ciphertext or not url or not username:
-                continue
-            
             decrypted_pass = decrypt(ciphertext, secret_key)
             
             print("Url :", url)
