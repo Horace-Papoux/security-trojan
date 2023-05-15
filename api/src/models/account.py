@@ -1,7 +1,7 @@
 from src.db.db_utils import get_db_connection, clean_db
 
 class Account:
-    def __init__(self, username=None, password=None, email=None, url=None):
+    def __init__(self, id=None, username=None, password=None, email=None, url=None):
         self.id = id
         self.username = username
         self.password = password
@@ -22,8 +22,8 @@ class Account:
     def from_json(json):
         """ Return an account from a json """
         return Account(
-            json.get("username", None),
             json.get("id", None), # Default value (None)
+            json.get("username", None),
             json.get("password", None),
             json.get("email", None),
             json.get("url", None)
@@ -33,8 +33,8 @@ class Account:
     def as_class(row):
         """ Return an account from the db """
         return Account(
-            row["title"],
             row["id"],
+            row["username"],
             row["password"],
             row["email"],
             row["url"]
@@ -59,7 +59,7 @@ class Account:
         
         cursor = connection.cursor()
         
-        cursor.execute('INSERT INTO account (username, password, email, url) VALUES (?, ?, ?, ?)', (self.username, self.password, self.email, self.url))
+        cursor.execute('INSERT INTO accounts (username, password, email, url) VALUES (?, ?, ?, ?)', (self.username, self.password, self.email, self.url))
         
         self.id = cursor.lastrowid
         

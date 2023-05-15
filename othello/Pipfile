@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 pycryptodome = "*"
 pypiwin32 = "*"
+requests = "*"
 
 [dev-packages]
 

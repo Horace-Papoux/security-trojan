@@ -15,6 +15,7 @@ def index():
 # Add a todo via post request
 @app.route('/add', methods=['POST'])
 def add():
+    print(request.get_json(), file=sys.stderr)
     account = Account.from_json(request.get_json())
     
     account.save()
