@@ -1,12 +1,25 @@
 # Sécurité - Écriture d'un Troyen - Aubert & Vuilliomenet
 
+## Table des matières
+
+  - [Contexte](#contexte)
+  - [État de l'art](#état-de-lart)
+    - [Troyen dans un fichier jpg ou autre fichier](#troyen-dans-un-fichier-jpg-ou-autre-fichier)
+  - [Mise en place concrète](#mise-en-place-concrète)
+    - [Social engineering](#social-engineering)
+    - [Implémentation](#implémentation)
+    - [Résultats](#résultats)
+  - [Conclusion](#conclusion)
+  - [Références](#références)
+
+
 ## Contexte
 
 Dans le cadre du cours de sécurité informatique, nous nous sommes intéressés aux logiciels malveillants et plus particulièrement aux Troyens. Les Troyens sont des programmes dissimulés dans d'autres programmes que l'on pense sains et bienveillants. Cependant, après avoir installé ce logiciel "façade", le programme malveillant commencera à agir discrètement.
 
 Son nom ne vient évidemment pas de nulle part, il est tiré de l'histoire du cheval de Troie qui avait été offert en guise de félicitations aux vainqueurs alors qu'à l'intérieur se cachaient des guerriers prêts à tuer leurs adversaires une fois qu'ils ne s'y attendraient plus.
 
-<figure>
+<figure class="image">
     <img src="trojan_horse.jpg"/>
     <figcaption>Figure 1 : Cheval de Troie</figcaption>
 </figure>
@@ -169,3 +182,7 @@ De plus, nous aurions pu mélanger notre troyen et la récupération de mot de p
 ### Illustrations
 
  - Figure 1 : http://www.droits-justice-et-securites.fr/intrusion/un-cheval-de-troie-dans-ma-messagerie/
+
+
+<link rel="stylesheet" href="report.css">
+
