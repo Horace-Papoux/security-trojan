@@ -126,14 +126,14 @@ def decrypt(ciphertext, secret_key):
 5. Envoi des mots de passe à une API
 
 ```python
-# TODO
+API_URL = "http://127.0.0.1:5000"
+
+# Envoi des données sur l'api
+requests.post(API_URL + "/add", json={ "url": url, "username": username, "email": "", "password": decrypted_pass })
 ```
 
 6. Affichage des mots de passe sur un frontend
 
-```python
-# TODO
-```
 
 ## Résultats
 
