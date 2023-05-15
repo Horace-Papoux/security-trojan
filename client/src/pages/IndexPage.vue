@@ -1,28 +1,23 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { api } from 'boot/axios';
-import AccountComponentVue from 'src/components/AccountComponent.vue';
+import { onMounted, ref } from "vue";
+import { api } from "boot/axios";
+import AccountComponentVue from "src/components/AccountComponent.vue";
 
 const accounts = ref([]);
 
 const fetchAccounts = async () => {
-  const response = await api.get('/');
+  const response = await api.get("/");
   accounts.value = response.data;
-
-  console.log(accounts.value);
 
   // Remove account that have none of these : username, email, password and url
   accounts.value = accounts.value.filter((account) => {
     return account.username || account.email || account.password || account.url;
   });
-
-  console.log(accounts.value);
 };
 
 onMounted(async () => {
   await fetchAccounts();
 });
-
 </script>
 
 <template>
