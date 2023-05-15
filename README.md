@@ -36,3 +36,19 @@ npm install
 ```bash
 quasar dev
 ```
+
+## Game Setup
+
+### 1. Install dependencies
+
+```bash
+cd othello
+pipenv shell
+pipenv install
+```
+
+### 2. Run the game
+
+```bash
+python othello_gui.py
+```
