@@ -21,3 +21,18 @@ python src/db/init_db.py
 ```bash
 python app.py
 ```
+
+## Web client setup
+
+### 1. Install dependencies
+
+```bash
+cd client
+npm install
+```
+
+### 2. Run the server
+
+```bash
+quasar dev
+```
