@@ -20,7 +20,7 @@ Dans le cadre du cours de sécurité informatique, nous nous sommes intéressés
 Son nom ne vient évidemment pas de nulle part, il est tiré de l'histoire du cheval de Troie qui avait été offert en guise de félicitations aux vainqueurs alors qu'à l'intérieur se cachaient des guerriers prêts à tuer leurs adversaires une fois qu'ils ne s'y attendraient plus.
 
 <figure class="image">
-    <img src="trojan_horse.jpg"/>
+    <img src="assets/trojan_horse.jpg"/>
     <figcaption>Figure 1 : Cheval de Troie</figcaption>
 </figure>
 
@@ -154,11 +154,26 @@ Afin de partager notre programme et que le code source ne soit pas visible, nous
 
 ## Résultats
 
-Notre troyen est dissumulé dans un jeu de plateau informatisé qui s'appelle *Othello*. Lorsque le jeu démarre sur la machine de notre cible, s'il possède des mots de passe dans dans le gestionnaire de mots-de-passe de Google, nous parvenons à les récupérer et les envoyer à une api pour concentrer les mots de passes récupéré à un unique endroit. Par la suite, un frontend permet de visualiser les mots de passe collecté.
+Notre troyen est dissumulé dans un jeu de plateau informatisé qui s'appelle *Othello*. Lorsque le jeu démarre sur la machine de notre cible, s'il possède des mots de passe dans dans le gestionnaire de mots-de-passe de Google, nous parvenons à les récupérer et les envoyer à une API pour concentrer les mots de passes récupéré à un unique endroit. Par la suite, un frontend permet de visualiser les mots de passe collecté.
 
 Pour des raisons évidentes de confidentialité, cette application n'est pas déployée et ne fonctionne qu'en local afin d'éviter que ces mots de passe soient réellement publiés.
 
 Notre troyen n'est pour l'instant pas particulièrement discret. Nous n'avons pas cherché à optimiser cette partie. Cependant, il est efficace et démarre dans un thread différent du jeu dans lequel il est divulgué pour ne pas ralentir l'exécution du jeu et attirer l'attention du joueur.
+
+La Figure 2 montre l'interface du client web, sur laquelle sont affichées les informations récupérées à partir de l'API. On peut y voir notamment :
+
+- Le nom d'utilisateur,
+- Le mot de passe, premièrement caché, puis affiché si l'utilisateur clique sur le bouton correspondant,
+- L'adresse mail,
+- Ainsi que l'URL du site auquel sont associées ces informations.
+
+<figure class="image">
+    <img src="assets/web-client.png"/>
+    <figcaption>Figure 2 : Interface du client web</figcaption>
+</figure>
+
+
+
 
 ## Limitations et perspectives
 

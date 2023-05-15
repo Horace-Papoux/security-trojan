@@ -7,6 +7,7 @@ name = "pypi"
 pycryptodome = "*"
 pypiwin32 = "*"
 requests = "*"
+pyinstaller = "*"
 
 [dev-packages]
 
